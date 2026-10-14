@@ -1,0 +1,41 @@
+name: Publicar no GitHub Pages
+
+# Manual até a issue #38: lá você ativa o Pages (Settings > Pages > Source: GitHub Actions)
+# e acrescenta o gatilho `push: branches: [main]` abaixo de `on:`.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Confira a versão major mais recente de cada action antes de usar.
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Montar a pasta publicada
+        run: |
+          mkdir _site
+          cp -r index.html src styles _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,27 @@
+name: "Copilot Setup Steps"
+
+# Prepara o ambiente do agente do Copilot (Node + dependências) antes dele começar.
+# Este arquivo só vale na branch padrão (main). Confira as versões atuais das actions.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # O nome do job TEM de ser exatamente "copilot-setup-steps".
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci

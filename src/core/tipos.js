@@ -4,6 +4,7 @@
  *              maxErros: number, status: Status, palavra: string | null }} Visao */
 
 export class JogadaInvalida extends Error {
+  /** @param {string} codigo */
   constructor(codigo) {
     super(codigo)
     this.codigo = codigo

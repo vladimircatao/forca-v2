@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { erros, jogar, novoJogo } from '../../src/core/jogo.js'
+import { erros, jogar, novoJogo, status } from '../../src/core/jogo.js'
 import { JogadaInvalida } from '../../src/core/tipos.js'
 
 test('novoJogo cria partida com palavra, categoria, maxErros padrão e tentativas vazias', () => {
@@ -108,4 +108,26 @@ test('jogar entrada inválida lança JogadaInvalida com codigo entrada_invalida'
       (erro) => erro instanceof JogadaInvalida && erro.codigo === 'entrada_invalida',
     )
   }
+})
+
+test('status mantém o jogo em andamento antes de vencer ou perder', () => {
+  const emAndamento = { ...novoJogo('CASA'), tentativas: [] }
+  const quaseVitoria = { ...novoJogo('CASA'), tentativas: ['C', 'A'] }
+  const vitoria = { ...novoJogo('CASA'), tentativas: ['C', 'A', 'S'] }
+  const quaseDerrota = { ...novoJogo('CASA'), tentativas: ['Z', 'X', 'W', 'K', 'Y'] }
+  const derrota = { ...novoJogo('CASA'), tentativas: ['Z', 'X', 'W', 'K', 'Y', 'Q'] }
+  const derrotaComLimite = { ...novoJogo('CASA', { maxErros: 2 }), tentativas: ['Z', 'X'] }
+
+  assert.equal(status(emAndamento), 'em_andamento')
+  assert.equal(status(quaseVitoria), 'em_andamento')
+  assert.equal(status(vitoria), 'venceu')
+  assert.equal(status(quaseDerrota), 'em_andamento')
+  assert.equal(status(derrota), 'perdeu')
+  assert.equal(status(derrotaComLimite), 'perdeu')
+})
+
+test('status vence palavras com acento ao comparar letras normalizadas', () => {
+  const estado = { ...novoJogo('AÇÚCAR'), tentativas: ['A', 'C', 'U', 'R'] }
+
+  assert.equal(status(estado), 'venceu')
 })

@@ -1,5 +1,5 @@
 /**
- * Cria um gerador pseudoaleatório determinístico no intervalo [0, 1).
+ * Cria um gerador de números pseudoaleatórios determinístico.
  * @param {number} semente
  * @returns {() => number}
  */

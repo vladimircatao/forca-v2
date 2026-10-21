@@ -1,4 +1,4 @@
-import { normalizarPalavra } from './normalizar.js'
+import { normalizarLetra, normalizarPalavra } from './normalizar.js'
 
 /**
  * Conta quantas tentativas não pertencem à palavra.
@@ -58,6 +58,22 @@ export function novoJogo(palavra, { categoria = '', maxErros = 6 } = {}) {
     palavra: palavraMaiuscula,
     categoria,
     maxErros,
+    tentativas,
+  })
+}
+
+/**
+ * Aplica uma jogada ao estado atual.
+ * @param {{ palavra: string, categoria: string, maxErros: number, tentativas: readonly string[] }} estado
+ * @param {string} entrada
+ * @returns {{ palavra: string, categoria: string, maxErros: number, tentativas: readonly string[] }}
+ */
+export function jogar(estado, entrada) {
+  const letra = normalizarLetra(entrada)
+  const tentativas = Object.freeze([...estado.tentativas, letra])
+
+  return Object.freeze({
+    ...estado,
     tentativas,
   })
 }

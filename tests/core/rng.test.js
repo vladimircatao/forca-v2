@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { criarRng } from '../../src/core/rng.js'
+import { criarRng, escolher } from '../../src/core/rng.js'
 
 test('dois geradores com semente 42 produzem exatamente a mesma sequência de 100 números', () => {
   const rngA = criarRng(42)
@@ -26,4 +26,23 @@ test('sementes 1 e 2 produzem primeiros valores diferentes', () => {
   const rng2 = criarRng(2)
 
   assert.notEqual(rng1(), rng2())
+})
+
+test('escolhe o primeiro item quando o gerador devolve 0', () => {
+  assert.equal(escolher(() => 0, ['a', 'b', 'c']), 'a')
+})
+
+test('escolhe o item do meio quando o gerador devolve 0.5', () => {
+  assert.equal(escolher(() => 0.5, ['a', 'b', 'c']), 'b')
+})
+
+test('escolhe o último item quando o gerador devolve 0.999', () => {
+  assert.equal(escolher(() => 0.999, ['a', 'b', 'c']), 'c')
+})
+
+test('lança RangeError quando a lista está vazia', () => {
+  assert.throws(() => escolher(() => 0, []), {
+    name: 'RangeError',
+    message: 'a lista está vazia',
+  })
 })

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jogo da Forca</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles/forca.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Jogo da Forca</h1>
+      <canvas
+        id="desenho"
+        width="200"
+        height="250"
+        role="img"
+        aria-label="Desenho da forca"
+      ></canvas>
+      <p id="categoria"></p>
+      <p id="mascara" class="mascara"></p>
+      <p id="erros"></p>
+      <p id="aviso" role="status" aria-live="polite"></p>
+      <div id="teclado" role="group" aria-label="Teclado de letras"></div>
+      <button id="novo" type="button" hidden>Novo jogo</button>
+    </main>
+
+    <script type="module" src="src/app/main.js"></script>
+  </body>
+</html>

@@ -13,3 +13,17 @@ export function criarRng(semente) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
   }
 }
+
+/**
+ * Escolhe um item aleatório de uma lista.
+ * @param {() => number} rng
+ * @param {Array} lista
+ * @returns {any}
+ */
+export function escolher(rng, lista) {
+  if (lista.length === 0) {
+    throw new RangeError('a lista está vazia')
+  }
+
+  return lista[Math.floor(rng() * lista.length)]
+}

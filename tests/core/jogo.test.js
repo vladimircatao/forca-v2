@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { erros, novoJogo, status } from '../../src/core/jogo.js'
+import { erros, jogar, novoJogo, status } from '../../src/core/jogo.js'
+import { JogadaInvalida } from '../../src/core/tipos.js'
 
 test('novoJogo cria partida com palavra, categoria, maxErros padrão e tentativas vazias', () => {
   const estado = novoJogo('casa', { categoria: 'Lugar' })
@@ -64,6 +65,49 @@ test('erros ignora acento ao comparar letras', () => {
   const estado = { ...novoJogo('AÇÚCAR'), tentativas: ['U', 'C'] }
 
   assert.equal(erros(estado), 0)
+})
+
+test('jogar aplica a letra normalizada na lista de tentativas', () => {
+  const estado = jogar(novoJogo('CASA'), 'c')
+
+  assert.deepEqual(estado.tentativas, ['C'])
+})
+
+test('jogar não altera o estado original recebido', () => {
+  const estadoOriginal = novoJogo('CASA')
+
+  jogar(estadoOriginal, 'c')
+
+  assert.deepEqual(estadoOriginal.tentativas, [])
+})
+
+test('jogar devolve novo estado e novo array de tentativas congelados', () => {
+  const estado = jogar(novoJogo('CASA'), 'c')
+
+  assert.equal(Object.isFrozen(estado), true)
+  assert.equal(Object.isFrozen(estado.tentativas), true)
+})
+
+test("jogar em AÇÚCAR com 'u' não conta erro e guarda U", () => {
+  const estado = jogar(novoJogo('AÇÚCAR'), 'u')
+
+  assert.equal(erros(estado), 0)
+  assert.deepEqual(estado.tentativas, ['U'])
+})
+
+test('jogar letra errada em CASA conta 1 erro', () => {
+  const estado = jogar(novoJogo('CASA'), 'z')
+
+  assert.equal(erros(estado), 1)
+})
+
+test('jogar entrada inválida lança JogadaInvalida com codigo entrada_invalida', () => {
+  for (const entrada of ['1', 'ab', '']) {
+    assert.throws(
+      () => jogar(novoJogo('CASA'), entrada),
+      (erro) => erro instanceof JogadaInvalida && erro.codigo === 'entrada_invalida',
+    )
+  }
 })
 
 test('status mantém o jogo em andamento antes de vencer ou perder', () => {

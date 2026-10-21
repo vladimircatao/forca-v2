@@ -13,15 +13,7 @@ test('html usa português do Brasil e título da página', () => {
 })
 
 test('a página expõe os elementos esperados do contrato da interface', () => {
-  const ids = [
-    'categoria',
-    'mascara',
-    'erros',
-    'aviso',
-    'teclado',
-    'novo',
-    'desenho',
-  ]
+  const ids = ['categoria', 'mascara', 'erros', 'aviso', 'teclado', 'novo', 'desenho']
 
   for (const id of ids) {
     assert.ok(document.getElementById(id), `faltando elemento com id=${id}`)

@@ -1,3 +1,5 @@
+import { mensagemFinal } from '../core/mensagens.js'
+
 /**
  * Sequência de letras do alfabeto em maiúsculas.
  * @type {string}
@@ -76,11 +78,17 @@ export function renderizar(doc, visao, aviso = '') {
     botao.disabled = estaTentada || jogoAcabou
   }
 
-  if (aviso) {
-    const avisoEl = doc.getElementById('aviso')
+  const avisoEl = doc.getElementById('aviso')
+  const mensagemFinalDaPartida =
+    visao.status && visao.status !== 'em_andamento' ? mensagemFinal(visao) : null
 
-    if (avisoEl) {
-      avisoEl.textContent = aviso
-    }
+  if (avisoEl) {
+    avisoEl.textContent = mensagemFinalDaPartida ?? aviso
+  }
+
+  const novo = doc.getElementById('novo')
+
+  if (novo) {
+    novo.hidden = visao.status === 'em_andamento'
   }
 }

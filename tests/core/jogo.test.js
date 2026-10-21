@@ -110,6 +110,52 @@ test('jogar entrada inválida lança JogadaInvalida com codigo entrada_invalida'
   }
 })
 
+test("jogar 'z' e depois 'Z' lança codigo letra_repetida", () => {
+  const estado = jogar(novoJogo('CASA'), 'z')
+
+  assert.throws(
+    () => jogar(estado, 'Z'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'letra_repetida',
+  )
+})
+
+test("jogar 'a' e depois 'á' lança codigo letra_repetida", () => {
+  const estado = jogar(novoJogo('CASA'), 'a')
+
+  assert.throws(
+    () => jogar(estado, 'á'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'letra_repetida',
+  )
+})
+
+test('letra repetida não altera erros nem tentativas do estado anterior', () => {
+  const estadoAntes = jogar(novoJogo('CASA'), 'z')
+
+  assert.equal(erros(estadoAntes), 1)
+  assert.deepEqual(estadoAntes.tentativas, ['Z'])
+
+  assert.throws(
+    () => jogar(estadoAntes, 'Z'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'letra_repetida',
+  )
+
+  assert.equal(erros(estadoAntes), 1)
+  assert.deepEqual(estadoAntes.tentativas, ['Z'])
+})
+
+test("entrada inválida repetida continua lançando entrada_invalida em '1' duas vezes", () => {
+  const estado = novoJogo('CASA')
+
+  assert.throws(
+    () => jogar(estado, '1'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'entrada_invalida',
+  )
+  assert.throws(
+    () => jogar(estado, '1'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'entrada_invalida',
+  )
+})
+
 test('status mantém o jogo em andamento antes de vencer ou perder', () => {
   const emAndamento = { ...novoJogo('CASA'), tentativas: [] }
   const quaseVitoria = { ...novoJogo('CASA'), tentativas: ['C', 'A'] }

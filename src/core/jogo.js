@@ -15,6 +15,26 @@ export function erros(estado) {
 }
 
 /**
+ * Informa o estado atual da partida.
+ * @param {{ palavra: string, maxErros: number, tentativas: readonly string[] }} estado
+ * @returns {'em_andamento' | 'venceu' | 'perdeu'}
+ */
+export function status(estado) {
+  const letrasDaPalavra = new Set(normalizarPalavra(estado.palavra).split(''))
+  const letrasTentadas = new Set(estado.tentativas.map((tentativa) => normalizarPalavra(tentativa)))
+
+  if ([...letrasDaPalavra].every((letra) => letrasTentadas.has(letra))) {
+    return 'venceu'
+  }
+
+  if (erros(estado) >= estado.maxErros) {
+    return 'perdeu'
+  }
+
+  return 'em_andamento'
+}
+
+/**
  * Cria um novo estado de jogo.
  * @param {string} palavra
  * @param {{ categoria?: string, maxErros?: number }} [opcoes]

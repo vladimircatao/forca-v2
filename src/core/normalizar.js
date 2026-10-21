@@ -7,10 +7,14 @@
 
 import { JogadaInvalida } from './tipos.js'
 
-/** @param {string} texto */
+/**
+ * Deixa o texto em maiúsculas e sem acento. Não valida o conteúdo.
+ * @param {string} texto
+ * @returns {string}
+ */
 export function normalizarPalavra(texto) {
-  // NFD separa letras e marcas; removemos marcas (\p{M}) e transformamos em maiúsculas.
-  // Mantemos espaços e símbolos (validação é responsabilidade de quem chama).
+  // Regra R3: o jogador digita sem acento, então comparamos a forma sem marcas.
+  // Espaços e símbolos ficam: quem valida é normalizarLetra.
   return texto.normalize('NFD').replace(/\p{M}/gu, '').toUpperCase()
 }
 

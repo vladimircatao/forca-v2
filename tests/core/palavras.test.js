@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { novoJogo } from '../../src/core/jogo.js'
+import { PALAVRAS } from '../../src/core/palavras.js'
 
-const PALAVRAS = [
+function semAcento(texto) {
+  return texto.normalize('NFD').replace(/\p{M}/gu, '')
+}
+
+const ESPERADAS = [
   { palavra: 'ABACAXI', categoria: 'Fruta' },
   { palavra: 'ELEFANTE', categoria: 'Animal' },
   { palavra: 'COMPUTADOR', categoria: 'Objeto' },
@@ -35,8 +39,49 @@ const PALAVRAS = [
   { palavra: 'SERTÃO', categoria: 'Lugar' },
 ]
 
-test('todas as 30 servem para novoJogo', () => {
+test('tem 30 palavras na ordem oficial', () => {
+  assert.equal(PALAVRAS.length, 30)
+  assert.deepEqual(PALAVRAS, ESPERADAS)
+})
+
+test('itens obrigatórios batem com os valores literais', () => {
+  assert.deepEqual(PALAVRAS[0], { palavra: 'ABACAXI', categoria: 'Fruta' })
+  assert.equal(PALAVRAS[12].palavra, 'AÇÚCAR')
+  assert.deepEqual(PALAVRAS[15], { palavra: 'MÚSICA', categoria: 'Arte' })
+})
+
+test('não repete palavras quando ignora acentos', () => {
+  const unicas = new Set(PALAVRAS.map((item) => semAcento(item.palavra)))
+  assert.equal(unicas.size, PALAVRAS.length)
+})
+
+test('cada palavra normalizada segue o formato e fica em maiúsculas', () => {
   for (const item of PALAVRAS) {
-    assert.doesNotThrow(() => novoJogo(item.palavra, { categoria: item.categoria }))
+    const normalizada = semAcento(item.palavra)
+    assert.match(normalizada, /^[A-Z]{4,}$/)
+    assert.equal(item.palavra, item.palavra.toUpperCase())
   }
+})
+
+test('todas as categorias são não vazias', () => {
+  for (const item of PALAVRAS) {
+    assert.equal(item.categoria.trim().length > 0, true)
+  }
+})
+
+test('lista e itens são imutáveis', () => {
+  assert.equal(Object.isFrozen(PALAVRAS), true)
+  for (const item of PALAVRAS) {
+    assert.equal(Object.isFrozen(item), true)
+  }
+})
+
+test('não permite alterar a lista nem os itens', () => {
+  assert.throws(() => {
+    PALAVRAS.push(Object.freeze({ palavra: 'TESTE', categoria: 'Teste' }))
+  }, TypeError)
+
+  assert.throws(() => {
+    PALAVRAS[0].palavra = 'LARANJA'
+  }, TypeError)
 })

@@ -16,9 +16,18 @@ test('há 26 botões em #teclado, na ordem A–Z, todos type button', () => {
   const botoes = [...document.querySelectorAll('#teclado button')]
 
   assert.equal(botoes.length, 26)
-  assert.deepEqual(botoes.map((botao) => botao.textContent), [...LETRAS])
-  assert.deepEqual(botoes.map((botao) => botao.dataset.letra), [...LETRAS])
-  assert.equal(botoes.every((botao) => botao.getAttribute('type') === 'button'), true)
+  assert.deepEqual(
+    botoes.map((botao) => botao.textContent),
+    [...LETRAS],
+  )
+  assert.deepEqual(
+    botoes.map((botao) => botao.dataset.letra),
+    [...LETRAS],
+  )
+  assert.equal(
+    botoes.every((botao) => botao.getAttribute('type') === 'button'),
+    true,
+  )
 })
 
 test('clicar no botão K chama aoEscolher uma vez com "K"', () => {

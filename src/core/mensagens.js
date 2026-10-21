@@ -18,6 +18,20 @@ export function mensagemDeErro(codigo) {
 }
 
 /**
+ * Produz a mensagem da jogada do jogador.
+ * @param {string} letra
+ * @param {boolean} acertou
+ * @returns {string}
+ */
+export function mensagemDaJogada(letra, acertou) {
+  if (acertou) {
+    return `Acertou! A letra ${letra} está na palavra.`
+  }
+
+  return `Errou. A letra ${letra} não está na palavra.`
+}
+
+/**
  * Produz a mensagem final de uma partida.
  * @param {{ status: 'em_andamento' | 'venceu' | 'perdeu', palavra: string | null }} visao
  * @returns {string | null}

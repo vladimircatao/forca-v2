@@ -1,3 +1,19 @@
+import { normalizarPalavra } from './normalizar.js'
+
+/**
+ * Conta quantas tentativas não pertencem à palavra.
+ * @param {{ palavra: string, tentativas: readonly string[] }} estado
+ * @returns {number}
+ */
+export function erros(estado) {
+  const letrasDaPalavra = new Set(normalizarPalavra(estado.palavra).split(''))
+
+  return estado.tentativas.reduce((total, tentativa) => {
+    const letra = normalizarPalavra(tentativa)
+    return total + (letrasDaPalavra.has(letra) ? 0 : 1)
+  }, 0)
+}
+
 /**
  * Cria um novo estado de jogo.
  * @param {string} palavra

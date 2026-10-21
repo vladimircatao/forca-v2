@@ -4,6 +4,6 @@
  * @returns {string}
  */
 export function normalizarPalavra(texto) {
-  // NFD separa a letra da marca de acento; depois as marcas (\p{M}) são removidas.
+  // Regra R3: o jogador digita sem acento, então comparamos a forma sem marcas.
   return texto.normalize('NFD').replace(/\p{M}/gu, '').toUpperCase()
 }

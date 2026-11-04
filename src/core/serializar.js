@@ -34,7 +34,11 @@ export function desserializar(texto) {
       throw new RangeError('versão inválida')
     }
 
-    if (typeof palavra !== 'string' || typeof categoria !== 'string' || !Array.isArray(tentativas)) {
+    if (
+      typeof palavra !== 'string' ||
+      typeof categoria !== 'string' ||
+      !Array.isArray(tentativas)
+    ) {
       throw new RangeError('tipos inválidos')
     }
 

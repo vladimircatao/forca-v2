@@ -16,9 +16,18 @@ test('há 26 botões em #teclado, na ordem A–Z, todos type button', () => {
   const botoes = [...document.querySelectorAll('#teclado button')]
 
   assert.equal(botoes.length, 26)
-  assert.deepEqual(botoes.map((botao) => botao.textContent), [...LETRAS])
-  assert.deepEqual(botoes.map((botao) => botao.dataset.letra), [...LETRAS])
-  assert.equal(botoes.every((botao) => botao.getAttribute('type') === 'button'), true)
+  assert.deepEqual(
+    botoes.map((botao) => botao.textContent),
+    [...LETRAS],
+  )
+  assert.deepEqual(
+    botoes.map((botao) => botao.dataset.letra),
+    [...LETRAS],
+  )
+  assert.equal(
+    botoes.every((botao) => botao.getAttribute('type') === 'button'),
+    true,
+  )
 })
 
 test('clicar no botão K chama aoEscolher uma vez com "K"', () => {
@@ -48,9 +57,8 @@ test('chamar montarTeclado duas vezes continua deixando 26 botões', () => {
 })
 
 test('renderizar mostra máscara, dica e erros para a visão da partida', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   renderizar(document, {
     mascara: '_A_A',
@@ -70,9 +78,8 @@ test('renderizar mostra máscara, dica e erros para a visão da partida', () => 
 })
 
 test('renderizar deixa a categoria vazia quando a dica está vazia', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   renderizar(document, {
     mascara: '_A_A',
@@ -85,9 +92,8 @@ test('renderizar deixa a categoria vazia quando a dica está vazia', () => {
 })
 
 test('renderizar duas vezes com a mesma visão deixa a página idempotente', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   const visao = {
     mascara: '_A_A',

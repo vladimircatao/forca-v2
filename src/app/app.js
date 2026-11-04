@@ -8,19 +8,19 @@ import { montarTeclado, renderizar } from '../ui/tela.js'
 export const CHAVE = 'forca:jogo'
 
 /**
- * Inicia uma partida sorteada e desenha sua visão inicial.
+ * Inicia uma partida sorteada e monta a interface inicial.
  * @param {{ doc: Document, ctx: CanvasRenderingContext2D, rng: () => number, armazenamento?: unknown }} entrada
- * @returns {void}
+ * @returns {{ palavra: string, categoria: string, maxErros: number, tentativas: readonly string[] }}
  */
 export function iniciarApp({ doc, ctx, rng, armazenamento = null }) {
+  if (!doc || !ctx || typeof rng !== 'function') {
+    throw new TypeError('iniciarApp precisa de doc, ctx e rng válidos')
+  }
+
   void armazenamento
 
-  let estado = novoJogo(escolher(rng, PALAVRAS).palavra, {
-    categoria: escolher(rng, PALAVRAS).categoria,
-  })
-
   const palavraSorteada = escolher(rng, PALAVRAS)
-  estado = novoJogo(palavraSorteada.palavra, { categoria: palavraSorteada.categoria })
+  const estado = novoJogo(palavraSorteada.palavra, { categoria: palavraSorteada.categoria })
 
   montarTeclado(doc, () => {})
 

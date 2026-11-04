@@ -1,10 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import {
-  mensagemDaJogada,
-  mensagemDeErro,
-  mensagemFinal,
-} from '../../src/core/mensagens.js'
+import { mensagemDaJogada, mensagemDeErro, mensagemFinal } from '../../src/core/mensagens.js'
 
 test('mensagemDeErro traduz letra repetida', () => {
   assert.equal(mensagemDeErro('letra_repetida'), 'Você já tentou essa letra.')

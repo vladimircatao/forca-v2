@@ -1,5 +1,3 @@
-// API pública do núcleo: um só lugar para ver tudo o que src/core oferece.
-// Módulos em ordem alfabética, conforme docs/ARQUITETURA.md §4.
 export { ALTURA, ETAPAS, LARGURA, etapaDoDesenho, planoDeDesenho } from './desenho.js'
 export { erros, jogar, novoJogo, status } from './jogo.js'
 export { mensagemDaJogada, mensagemDeErro, mensagemFinal } from './mensagens.js'

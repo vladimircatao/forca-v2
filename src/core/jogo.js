@@ -1,4 +1,5 @@
 import { normalizarLetra, normalizarPalavra } from './normalizar.js'
+import { JogadaInvalida } from './tipos.js'
 
 /**
  * Conta quantas tentativas não pertencem à palavra.
@@ -70,6 +71,11 @@ export function novoJogo(palavra, { categoria = '', maxErros = 6 } = {}) {
  */
 export function jogar(estado, entrada) {
   const letra = normalizarLetra(entrada)
+
+  if (estado.tentativas.includes(letra)) {
+    throw new JogadaInvalida('letra_repetida')
+  }
+
   const tentativas = Object.freeze([...estado.tentativas, letra])
 
   return Object.freeze({

@@ -21,12 +21,8 @@ export function iniciarApp({ doc, ctx, rng, armazenamento = null }) {
     // A próxima issue vai implementar persistência.
   }
 
-  let estado = novoJogo(escolher(rng, PALAVRAS).palavra, {
-    categoria: escolher(rng, PALAVRAS).categoria,
-  })
-
   const palavraSorteada = escolher(rng, PALAVRAS)
-  estado = novoJogo(palavraSorteada.palavra, { categoria: palavraSorteada.categoria })
+  const estado = novoJogo(palavraSorteada.palavra, { categoria: palavraSorteada.categoria })
 
   montarTeclado(doc, () => {})
 

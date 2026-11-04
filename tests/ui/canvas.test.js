@@ -53,7 +53,7 @@ test('limpa o canvas uma vez antes do primeiro stroke', () => {
   const indiceStroke = chamadas.findIndex(([nome]) => nome === 'stroke')
 
   assert.equal(chamadas.filter(([nome]) => nome === 'clearRect').length, 1)
-  assert.equal(chamadas[indiceClearRect], ['clearRect', 0, 0, 200, 250])
+  assert.deepEqual(chamadas[indiceClearRect], ['clearRect', 0, 0, 200, 250])
   assert.ok(indiceClearRect < indiceStroke)
 })
 

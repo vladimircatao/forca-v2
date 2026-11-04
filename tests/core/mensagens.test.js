@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { mensagemDeErro, mensagemFinal } from '../../src/core/mensagens.js'
+import {
+  mensagemDaJogada,
+  mensagemDeErro,
+  mensagemFinal,
+} from '../../src/core/mensagens.js'
 
 test('mensagemDeErro traduz letra repetida', () => {
   assert.equal(mensagemDeErro('letra_repetida'), 'Você já tentou essa letra.')
@@ -17,6 +21,14 @@ test('mensagemDeErro traduz jogo encerrado', () => {
 test('mensagemDeErro lança RangeError para códigos desconhecidos', () => {
   assert.throws(() => mensagemDeErro('outra'), RangeError)
   assert.throws(() => mensagemDeErro('toString'), RangeError)
+})
+
+test('mensagemDaJogada retorna mensagem de acerto', () => {
+  assert.equal(mensagemDaJogada('A', true), 'Acertou! A letra A está na palavra.')
+})
+
+test('mensagemDaJogada retorna mensagem de erro', () => {
+  assert.equal(mensagemDaJogada('Z', false), 'Errou. A letra Z não está na palavra.')
 })
 
 test('mensagemFinal retorna null quando o jogo ainda está em andamento', () => {

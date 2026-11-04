@@ -70,6 +70,10 @@ export function novoJogo(palavra, { categoria = '', maxErros = 6 } = {}) {
  * @returns {{ palavra: string, categoria: string, maxErros: number, tentativas: readonly string[] }}
  */
 export function jogar(estado, entrada) {
+  if (status(estado) !== 'em_andamento') {
+    throw new JogadaInvalida('jogo_encerrado')
+  }
+
   const letra = normalizarLetra(entrada)
 
   if (estado.tentativas.includes(letra)) {

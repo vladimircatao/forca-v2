@@ -57,9 +57,8 @@ test('chamar montarTeclado duas vezes continua deixando 26 botões', () => {
 })
 
 test('renderizar mostra máscara, dica e erros para a visão da partida', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   renderizar(document, {
     mascara: '_A_A',
@@ -79,9 +78,8 @@ test('renderizar mostra máscara, dica e erros para a visão da partida', () => 
 })
 
 test('renderizar deixa a categoria vazia quando a dica está vazia', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   renderizar(document, {
     mascara: '_A_A',
@@ -94,9 +92,8 @@ test('renderizar deixa a categoria vazia quando a dica está vazia', () => {
 })
 
 test('renderizar duas vezes com a mesma visão deixa a página idempotente', () => {
-  const { document } = new JSDOM(
-    '<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>',
-  ).window
+  const { document } = new JSDOM('<p id="mascara"></p><p id="categoria"></p><p id="erros"></p>')
+    .window
 
   const visao = {
     mascara: '_A_A',

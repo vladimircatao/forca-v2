@@ -51,9 +51,7 @@ export function renderizar(doc, visao, aviso = '') {
     mascara.textContent = texto
     mascara.setAttribute(
       'aria-label',
-      `Palavra: ${letras
-        .map((letra) => (letra === '_' ? 'lacuna' : letra))
-        .join(', ')}`,
+      `Palavra: ${letras.map((letra) => (letra === '_' ? 'lacuna' : letra)).join(', ')}`,
     )
   }
 

@@ -29,15 +29,24 @@ test('sementes 1 e 2 produzem primeiros valores diferentes', () => {
 })
 
 test('escolhe o primeiro item quando o gerador devolve 0', () => {
-  assert.equal(escolher(() => 0, ['a', 'b', 'c']), 'a')
+  assert.equal(
+    escolher(() => 0, ['a', 'b', 'c']),
+    'a',
+  )
 })
 
 test('escolhe o item do meio quando o gerador devolve 0.5', () => {
-  assert.equal(escolher(() => 0.5, ['a', 'b', 'c']), 'b')
+  assert.equal(
+    escolher(() => 0.5, ['a', 'b', 'c']),
+    'b',
+  )
 })
 
 test('escolhe o último item quando o gerador devolve 0.999', () => {
-  assert.equal(escolher(() => 0.999, ['a', 'b', 'c']), 'c')
+  assert.equal(
+    escolher(() => 0.999, ['a', 'b', 'c']),
+    'c',
+  )
 })
 
 test('lança RangeError quando a lista está vazia', () => {

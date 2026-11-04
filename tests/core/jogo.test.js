@@ -156,6 +156,62 @@ test("entrada inválida repetida continua lançando entrada_invalida em '1' duas
   )
 })
 
+test('jogar depois de vencer lança codigo jogo_encerrado', () => {
+  let estado = novoJogo('CASA')
+
+  for (const letra of ['c', 'a', 's']) {
+    estado = jogar(estado, letra)
+  }
+
+  assert.throws(
+    () => jogar(estado, 'z'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'jogo_encerrado',
+  )
+})
+
+test('jogar depois de perder lança codigo jogo_encerrado', () => {
+  let estado = novoJogo('CASA')
+
+  for (const letra of ['z', 'x', 'w', 'k', 'y', 'q']) {
+    estado = jogar(estado, letra)
+  }
+
+  assert.throws(
+    () => jogar(estado, 'c'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'jogo_encerrado',
+  )
+})
+
+test('jogo encerrado tem prioridade sobre entrada inválida e letra repetida', () => {
+  let estado = novoJogo('CASA')
+
+  for (const letra of ['c', 'a', 's']) {
+    estado = jogar(estado, letra)
+  }
+
+  assert.throws(
+    () => jogar(estado, '1'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'jogo_encerrado',
+  )
+  assert.throws(
+    () => jogar(estado, 'c'),
+    (erro) => erro instanceof JogadaInvalida && erro.codigo === 'jogo_encerrado',
+  )
+})
+
+test('o sexto erro é aceito e encerra a partida', () => {
+  let estado = novoJogo('CASA')
+
+  for (const letra of ['z', 'x', 'w', 'k', 'y']) {
+    estado = jogar(estado, letra)
+  }
+
+  const estadoFinal = jogar(estado, 'q')
+
+  assert.equal(erros(estadoFinal), 6)
+  assert.equal(status(estadoFinal), 'perdeu')
+})
+
 test('status mantém o jogo em andamento antes de vencer ou perder', () => {
   const emAndamento = { ...novoJogo('CASA'), tentativas: [] }
   const quaseVitoria = { ...novoJogo('CASA'), tentativas: ['C', 'A'] }
